@@ -1,4 +1,5 @@
 import 'package:codigo6_qr/pages/home_page.dart';
+import 'package:codigo6_qr/pages/scanner_page.dart';
 import 'package:codigo6_qr/ui/general/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
