@@ -1,10 +1,12 @@
 class QRModel {
+  int? id;
   String title;
   String observation;
   String url;
   String dateTime;
 
   QRModel({
+    this.id,
     required this.title,
     required this.observation,
     required this.url,
@@ -12,6 +14,7 @@ class QRModel {
   });
 
   factory QRModel.fromJson(Map<String, dynamic> json) => QRModel(
+        id: json["id"],
         title: json["title"],
         observation: json["observation"],
         url: json["url"],

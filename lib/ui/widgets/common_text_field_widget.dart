@@ -12,7 +12,7 @@ class CommonTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
@@ -32,7 +32,21 @@ class CommonTextFieldWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(14.0),
           borderSide: BorderSide.none,
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.0),
+          borderSide: BorderSide.none,
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14.0),
+          borderSide: BorderSide.none,
+        ),
       ),
+      validator: (String? value){
+        if(value != null && value.isEmpty){
+          return "Campo obligatorio";
+        }
+        return null;
+      },
     );
   }
 }
