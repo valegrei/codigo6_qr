@@ -1,17 +1,21 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:codigo6_qr/pages/register_page.dart';
 import 'package:codigo6_qr/ui/widgets/common_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScannerPage extends StatefulWidget {
+  const ScannerPage({super.key});
+
   @override
   State<ScannerPage> createState() => _ScannerPageState();
 }
 
 class _ScannerPageState extends State<ScannerPage> {
   Barcode? result;
+  String urlData = "";
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -34,29 +38,38 @@ class _ScannerPageState extends State<ScannerPage> {
           Expanded(flex: 4, child: _buildQrView(context)),
           Expanded(
             flex: 1,
-            child: Container(
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Por favor escanea un código QR.",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
+            child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      urlData.isNotEmpty
+                          ? urlData
+                          : "Por favor escanea un código QR.",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 6.0,),
-                  CommonButtonWidget(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ScannerPage()));
-                    },
-                    text: "Registrar",
-                  ),
-                ],
+                    const SizedBox(
+                      height: 6.0,
+                    ),
+                    CommonButtonWidget(
+                      onPressed: () {
+                        if (urlData.isNotEmpty) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisterPage(urlData: urlData,)));
+                        }
+                      },
+                      text: "Registrar",
+                    ),
+                  ],
+                ),
               ),
             ),
           )
@@ -91,11 +104,13 @@ class _ScannerPageState extends State<ScannerPage> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      print("XXXXXX ${scanData.code}");
       setState(() {
         result = scanData;
+        urlData = result!.code!;
       });
     });
+    this.controller!.pauseCamera();
+    this.controller!.resumeCamera();
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
