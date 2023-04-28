@@ -37,7 +37,8 @@ class DBAdmin {
   Future<List<QRModel>> getQRList() async {
     final Database? db = await _checkDatabase();
     List data = await db!.query("QR");
-    return data.map((e) => QRModel.fromJson(e)).toList();
+    List<QRModel> qrList = data.map((e) => QRModel.fromJson(e)).toList();
+    return qrList;
   }
 
   Future<int> inserQR(QRModel model) async {

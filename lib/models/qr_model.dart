@@ -18,13 +18,13 @@ class QRModel {
         title: json["title"],
         observation: json["observation"],
         url: json["url"],
-        dateTime: json["dateTime"],
+        dateTime: json["datetime"],
       );
 
   toJson() => {
         "title": title,
         "observation": observation,
         "url": url,
-        "dateTime": dateTime,
+        "datetime": dateTime,
       };
 }
