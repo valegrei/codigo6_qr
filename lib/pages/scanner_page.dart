@@ -49,6 +49,8 @@ class _ScannerPageState extends State<ScannerPage> {
                       urlData.isNotEmpty
                           ? urlData
                           : "Por favor escanea un código QR.",
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,

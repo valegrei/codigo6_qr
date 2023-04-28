@@ -48,7 +48,7 @@ class HistoryPage extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: qrList.length,
                           itemBuilder: (context, index) {
-                            return CommonListItemWidget(model: qrList[index]);
+                            return CommonListItemWidget(qrModel: qrList[index]);
                           },
                         );
                       }

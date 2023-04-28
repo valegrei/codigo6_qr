@@ -1,16 +1,20 @@
 import 'package:codigo6_qr/models/qr_model.dart';
+import 'package:codigo6_qr/pages/detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CommonListItemWidget extends StatelessWidget {
-  QRModel model;
+  QRModel qrModel;
 
   CommonListItemWidget({
     super.key,
-    required this.model,
+    required this.qrModel,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool isUrl = qrModel.url.contains("http");
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       padding: const EdgeInsets.symmetric(
@@ -38,7 +42,7 @@ class CommonListItemWidget extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      model.dateTime,
+                      qrModel.dateTime,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
@@ -50,7 +54,7 @@ class CommonListItemWidget extends StatelessWidget {
                   height: 3,
                 ),
                 Text(
-                  model.title,
+                  qrModel.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -63,7 +67,7 @@ class CommonListItemWidget extends StatelessWidget {
                   height: 3,
                 ),
                 Text(
-                  model.observation,
+                  qrModel.observation,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -76,20 +80,32 @@ class CommonListItemWidget extends StatelessWidget {
           ),
           Row(
             children: [
+              isUrl
+                  ? IconButton(
+                      onPressed: () {
+                        Uri uri = Uri.parse(qrModel.url);
+                        launchUrl(uri, mode: LaunchMode.externalApplication);
+                      },
+                      icon: const Icon(
+                        Icons.link,
+                        color: Colors.white,
+                      ))
+                  : const SizedBox(),
               IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.link,
-                    color: Colors.white,
-                  )),
-              IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailPage(
+                                  qrModel: qrModel,
+                                )));
+                  },
                   icon: const Icon(
                     Icons.qr_code,
                     color: Colors.white,
                   )),
             ],
-          )
+          ),
         ],
       ),
     );
